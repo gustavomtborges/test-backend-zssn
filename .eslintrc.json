@@ -1,5 +1,17 @@
 {
   "extends": [
     "airbnb"
-  ]
+  ],
+  "globals": {
+    "describe": true,
+    "it": true,
+    "app": true,
+    "expect": true,
+    "request": true,
+    "before": true
+  },
+  "rules": {
+    "semi": 2,
+    "no-underscore-dangle": "off"
+  }
 }
