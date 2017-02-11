@@ -18,4 +18,4 @@
 - __GET /api/survivors/:id__ - Fetch a survivor
 - __POST /api/survivors__ - Create a survivor
 - __PUT /api/survivors/:id__ - Update a survivor
-- __POST /api/survivors/report_infection__ - Report a survior suspected by 
+- __POST /api/survivors/report_infection__ - Report a survior suspected by infection
