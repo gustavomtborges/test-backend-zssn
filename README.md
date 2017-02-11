@@ -4,7 +4,7 @@
 - Install Node.js
 
 ## Install
-`$ npm Install`
+`$ npm install`
 
 ## Test
 `$ npm run test-integration`
