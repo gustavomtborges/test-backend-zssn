@@ -5,6 +5,7 @@ describe('Routes survivors', () => {
     age: 32,
     gender: 'M',
     location: 'POINT (0 0)',
+    infectedCount: 2,
     inventory: [
       { item: 'water', quantity: 1 },
       { item: 'food', quantity: 2 },
@@ -25,7 +26,7 @@ describe('Routes survivors', () => {
       });
   });
 
-  describe('Route GET /survivors', () => {
+  describe('Route GET /api/survivors', () => {
     it('should return a list of survivors', (done) => {
       request
         .get('/api/survivors')
@@ -41,7 +42,7 @@ describe('Routes survivors', () => {
     });
   });
 
-  describe('Route GET /survivors/{id}', () => {
+  describe('Route GET /api/survivors/{id}', () => {
     it('should return a survivor', (done) => {
       request
         .get(`/api/survivors/${defaultSurvivorId}`)
@@ -57,7 +58,7 @@ describe('Routes survivors', () => {
     });
   });
 
-  describe('Route POST /survivors', () => {
+  describe('Route POST /api/survivors', () => {
     it('should create a survivor', (done) => {
       const newSurvivor = {
         name: 'Zé Prequeté',
@@ -85,7 +86,7 @@ describe('Routes survivors', () => {
     });
   });
 
-  describe('Route PUT /survivors/{id}', () => {
+  describe('Route PUT /api/survivors/{id}', () => {
     it('should update a survivor', (done) => {
       const updatedSurvivor = {
         name: 'Zé Chumbrega',
@@ -104,4 +105,58 @@ describe('Routes survivors', () => {
         });
     });
   });
+
+  describe('Route PUT /api/survivors/{id}', () => {
+    it('a survivor should not change their inventory', (done) => {
+      const newInventory = {
+        inventory: {
+          water: 20,
+          food: 100,
+        },
+      };
+      request
+        .put(`/api/survivors/${defaultSurvivorId}`)
+        .send(newInventory)
+        .end((err, res) => {
+          expect(res.status).to.be.eql(406);
+
+          done(err);
+        });
+    });
+  });
+
+  describe('Route POST /api/survivors/report_infection', () => {
+    it('should register a suspected survivor as infected', (done) => {
+      const isInfected = {
+        id: defaultSurvivorId,
+      };
+
+      request
+        .post('/api/survivors/report_infection')
+        .send(isInfected)
+        .end((err, res) => {
+          expect(res.body.infectedCount).to.be.eql(3);
+
+          done(err);
+        });
+    });
+  });
+
+  describe('Route POST /api/survivors/report_infection', () => {
+    it('should mark a survivor as infected with have 3 or more report infection', (done) => {
+      const halfInfected = {
+        id: defaultSurvivorId,
+      };
+
+      request
+        .post('/api/survivors/report_infection')
+        .send(halfInfected)
+        .end((err, res) => {
+          expect(res.body.infected).to.be.eql(true);
+
+          done(err);
+        });
+    });
+  });
 });
+
