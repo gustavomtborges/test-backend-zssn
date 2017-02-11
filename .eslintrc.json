@@ -12,6 +12,7 @@
   },
   "rules": {
     "semi": 2,
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "no-param-reassign": "off"
   }
 }
