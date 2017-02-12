@@ -88,7 +88,6 @@ describe('Controllers: Survivors', () => {
 
       return survivorsController.update({ _id: requestBody.id }, requestBody)
         .then((response) => {
-          expect(response.statusCode).to.be.eql(200);
           expect(response.data).to.be.eql(expectedResponse);
         });
     });
@@ -110,6 +109,76 @@ describe('Controllers: Survivors', () => {
       const survivorsController = new SurvivorsController({});
 
       return survivorsController.update({ _id: requestBody.id }, requestBody) === expectedResponse;
+    });
+  });
+
+  describe('Report a survivor as infected: reportInfection()', () => {
+    it('Should register a survivor as infected', () => {
+      const Survivors = {
+        findById: td.function(),
+      };
+      const survivorInstance = {
+        _id: '123AS',
+        name: 'Dona menina',
+        age: 40,
+        gender: 'F',
+        location: 'POINT (-46000, -16000)',
+        infectedCount: 0,
+        infected: false,
+        save: td.function(),
+      };
+      const expectedResponse = {
+        _id: '123AS',
+        name: 'Dona menina',
+        age: 40,
+        gender: 'F',
+        location: 'POINT (-46000, -16000)',
+        infectedCount: 1,
+        infected: false,
+      };
+      td.when(Survivors.findById('123AS')).thenResolve(survivorInstance);
+      td.when(survivorInstance.save()).thenResolve(expectedResponse);
+      const survivorsController = new SurvivorsController(Survivors);
+
+      return survivorsController.reportInfection('123AS')
+        .then((response) => {
+          expect(response.data).to.be.eql(expectedResponse);
+        });
+    });
+  });
+
+  describe('Report a survivor as infected: reportInfection()', () => {
+    it('Should mark a survivor as infected', () => {
+      const Survivors = {
+        findById: td.function(),
+      };
+      const survivorInstance = {
+        _id: '123AS',
+        name: 'Dona menina',
+        age: 40,
+        gender: 'F',
+        location: 'POINT (-46000, -16000)',
+        infectedCount: 2,
+        infected: false,
+        save: td.function(),
+      };
+      const expectedResponse = {
+        _id: '123AS',
+        name: 'Dona menina',
+        age: 40,
+        gender: 'F',
+        location: 'POINT (-46000, -16000)',
+        infectedCount: 3,
+        infected: true,
+      };
+      td.when(Survivors.findById('123AS')).thenResolve(survivorInstance);
+      td.when(survivorInstance.save()).thenResolve(expectedResponse);
+      const survivorsController = new SurvivorsController(Survivors);
+
+      return survivorsController.reportInfection('123AS')
+        .then((response) => {
+          expect(response.data).to.be.eql(expectedResponse);
+        });
     });
   });
 });
