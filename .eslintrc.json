@@ -8,7 +8,8 @@
     "app": true,
     "expect": true,
     "request": true,
-    "before": true
+    "before": true,
+    "td": true
   },
   "rules": {
     "semi": 2,
