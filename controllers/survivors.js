@@ -1,8 +1,10 @@
-const defaultResponse = (data, statusCode = 200) => ({
+import HttpStatus from 'http-status';
+
+const defaultResponse = (data, statusCode = HttpStatus.OK) => ({
   data,
   statusCode,
 });
-const errorResponse = (message, statusCode = 400) => defaultResponse({
+const errorResponse = (message, statusCode = HttpStatus.BAD_REQUEST) => defaultResponse({
   error: message,
 }, statusCode);
 
@@ -27,19 +29,19 @@ class SurvivorsController {
 
   create(survivor) {
     return this.Survivors.create(survivor)
-      .then(createdSurvivor => defaultResponse(createdSurvivor, 201))
-      .catch(error => errorResponse(error.message, 422));
+      .then(createdSurvivor => defaultResponse(createdSurvivor, HttpStatus.CREATED))
+      .catch(error => errorResponse(error.message, HttpStatus.UNPROCESSABLE_ENTITY));
   }
 
   update(params, survivor) {
     if (survivor.inventory) {
       return new Promise((resolve) => {
-        resolve(errorResponse('You cannot update inventory', 406));
+        resolve(errorResponse('You cannot update inventory', HttpStatus.NOT_ACCEPTABLE));
       });
     }
     return this.Survivors.update(params, survivor)
       .then(rowsUpdated => defaultResponse(rowsUpdated))
-      .catch(error => errorResponse(error.message, 422));
+      .catch(error => errorResponse(error.message, HttpStatus.UNPROCESSABLE_ENTITY));
   }
 
   reportInfection(survivorId) {
@@ -49,7 +51,7 @@ class SurvivorsController {
         survivor.infected = survivor.infectedCount >= NUMBER_TO_BE_INFECTED;
         return survivor.save()
           .then(updatedSurvivor => defaultResponse(updatedSurvivor))
-          .catch(error => errorResponse(error.message, 422));
+          .catch(error => errorResponse(error.message, HttpStatus.UNPROCESSABLE_ENTITY));
       })
       .catch(error => errorResponse(error.message));
   }
