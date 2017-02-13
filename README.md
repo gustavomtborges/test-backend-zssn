@@ -2,6 +2,7 @@
 
 ## Prerequisites
 - Install Node.js
+- Install MongoDB
 
 ## Install
 `$ npm install`
