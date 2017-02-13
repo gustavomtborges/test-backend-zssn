@@ -9,7 +9,9 @@
     "expect": true,
     "request": true,
     "before": true,
-    "td": true
+    "td": true,
+    "Joi": true,
+    "joiAssert": true
   },
   "rules": {
     "semi": 2,
