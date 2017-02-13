@@ -7,7 +7,7 @@
 `$ npm install`
 
 ## Test
-`$ npm run test-integration`
+`$ npm test`
 
 ## Run
 `$ npm start`
