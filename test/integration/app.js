@@ -1,5 +1,5 @@
 describe('Routes survivors', () => {
-  const Survivor = app.datasource.Survivor;
+  const Survivors = app.datasource.Survivors;
   const defaultSurvivor = {
     name: 'Tião Galinha',
     age: 32,
@@ -15,9 +15,9 @@ describe('Routes survivors', () => {
   let defaultSurvivorId = '';
 
   before((done) => {
-    Survivor.remove({})
+    Survivors.remove({})
       .then(() => {
-        new Survivor(defaultSurvivor).save().then((survivor) => {
+        new Survivors(defaultSurvivor).save().then((survivor) => {
           defaultSurvivorId = survivor._id.toString();
         });
       })
@@ -143,7 +143,7 @@ describe('Routes survivors', () => {
   });
 
   describe('Route POST /api/survivors/report_infection', () => {
-    it('should mark a survivor as infected with have 3 or more report infection', (done) => {
+    it('should mark a survivor as infected if him has 3 or more reports', (done) => {
       const halfInfected = {
         id: defaultSurvivorId,
       };

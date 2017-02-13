@@ -83,7 +83,8 @@ describe('Controllers: Survivors', () => {
         location: 'POINT (-46000, -16000)',
       };
       const expectedResponse = { n: 1, nModified: 1, ok: 1 };
-      td.when(Survivors.update({ _id: requestBody.id }, requestBody)).thenResolve(expectedResponse);
+      td.when(Survivors.update({ _id: requestBody.id }, requestBody))
+        .thenResolve(expectedResponse);
       const survivorsController = new SurvivorsController(Survivors);
 
       return survivorsController.update({ _id: requestBody.id }, requestBody)
@@ -108,7 +109,8 @@ describe('Controllers: Survivors', () => {
       };
       const survivorsController = new SurvivorsController({});
 
-      return survivorsController.update({ _id: requestBody.id }, requestBody) === expectedResponse;
+      return survivorsController
+        .update({ _id: requestBody.id }, requestBody) === expectedResponse;
     });
   });
 
